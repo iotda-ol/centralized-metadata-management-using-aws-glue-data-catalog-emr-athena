@@ -1,0 +1,29 @@
+# AWS Configuration
+aws_region  = "us-east-1"
+environment = "dev"
+
+# Project Configuration
+project_name        = "centralized-metadata"
+glue_database_name  = "centralized_metadata_db"
+
+# S3 Configuration
+# Note: Update these with your unique bucket names
+s3_data_bucket_name            = "your-org-centralized-metadata-data-dev"
+s3_athena_results_bucket_name  = "your-org-centralized-metadata-athena-results-dev"
+
+# Hive Metastore Configuration (Optional - for migration from existing Hive)
+# Uncomment and configure if you have an existing Hive metastore to import
+# hive_metastore_uri      = "jdbc:mysql://your-hive-metastore-host:3306/hive"
+# hive_metastore_username = "hive_user"
+# hive_metastore_password = "your_secure_password"
+
+# Glue Crawler Configuration
+enable_crawler   = true
+crawler_schedule = "cron(0 2 * * ? *)"  # Daily at 2 AM UTC
+
+# Additional Tags
+tags = {
+  Owner       = "DataEngineering"
+  CostCenter  = "Analytics"
+  Compliance  = "GDPR"
+}

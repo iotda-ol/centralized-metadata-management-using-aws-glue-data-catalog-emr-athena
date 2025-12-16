@@ -52,7 +52,7 @@ class HiveToGlueImporter:
             )
             logger.info(f"Created database {self.glue_database}")
     
-    def import_table(self, table_metadata: Dict[str, Any]) -> bool:
+    def import_table(self, table_metadata: Dict[str, Any]) -> str:
         """
         Import a single table to Glue Data Catalog
         
@@ -60,7 +60,7 @@ class HiveToGlueImporter:
             table_metadata: Dictionary containing table metadata from Hive
             
         Returns:
-            True if successful, False otherwise
+            'success', 'skipped', or 'failed' status string
         """
         try:
             table_input = {
@@ -83,14 +83,14 @@ class HiveToGlueImporter:
             )
             
             logger.info(f"Successfully imported table: {table_metadata['name']}")
-            return True
+            return 'success'
             
         except self.glue_client.exceptions.AlreadyExistsException:
             logger.warning(f"Table {table_metadata['name']} already exists, skipping")
-            return False
+            return 'skipped'
         except Exception as e:
             logger.error(f"Error importing table {table_metadata['name']}: {str(e)}")
-            return False
+            return 'failed'
     
     def import_tables_from_hive_metadata(self, hive_tables: List[Dict[str, Any]]) -> Dict[str, int]:
         """
@@ -108,10 +108,12 @@ class HiveToGlueImporter:
         
         for table in hive_tables:
             result = self.import_table(table)
-            if result:
+            if result == 'success':
                 stats['successful'] += 1
-            else:
+            elif result == 'skipped':
                 stats['skipped'] += 1
+            else:  # failed
+                stats['failed'] += 1
         
         logger.info(f"Import complete. Stats: {stats}")
         return stats

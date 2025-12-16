@@ -167,11 +167,18 @@ resource "aws_iam_role" "athena_execution_role" {
           Service = "athena.amazonaws.com"
         }
       },
+      # Note: In production, restrict this to specific IAM users/roles
+      # that need to execute Athena queries, rather than the entire account
       {
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
-          AWS = data.aws_caller_identity.current.account_id
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+        Condition = {
+          StringEquals = {
+            "sts:ExternalId" = "athena-execution"
+          }
         }
       }
     ]

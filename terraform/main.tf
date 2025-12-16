@@ -56,11 +56,12 @@ resource "aws_glue_connection" "hive_metastore" {
     PASSWORD            = var.hive_metastore_password
   }
 
-  physical_connection_requirements {
-    security_group_id_list = []
-    availability_zone      = ""
-    subnet_id              = ""
-  }
+  # Note: For VPC-based Hive metastores, configure these parameters:
+  # physical_connection_requirements {
+  #   security_group_id_list = [var.hive_metastore_security_group_id]
+  #   availability_zone      = var.hive_metastore_availability_zone
+  #   subnet_id              = var.hive_metastore_subnet_id
+  # }
 }
 
 # AWS Glue Crawler for automatic schema discovery
@@ -119,7 +120,7 @@ resource "aws_athena_workgroup" "main" {
 # CloudWatch Log Group for Glue jobs
 resource "aws_cloudwatch_log_group" "glue_logs" {
   name              = "/aws/glue/${var.project_name}"
-  retention_in_days = 7
+  retention_in_days = var.cloudwatch_log_retention_days
 
   tags = merge(var.tags, {
     Name = "${var.project_name}-glue-logs"

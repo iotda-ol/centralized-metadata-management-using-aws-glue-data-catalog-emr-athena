@@ -1,0 +1,1 @@
+"""Glue module for metadata catalog management"""

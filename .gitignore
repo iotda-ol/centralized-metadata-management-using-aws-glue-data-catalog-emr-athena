@@ -1,24 +1,9 @@
-# Terraform
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfplan
-.terraform.lock.hcl
-terraform.tfvars
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-env/
-venv/
-ENV/
 build/
 develop-eggs/
 dist/
@@ -31,41 +16,76 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+.terraform.lock.hcl
 
 # IDE
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
-*.swn
+*~
 .DS_Store
 
 # AWS
+.aws/
 *.pem
 *.key
-credentials
-config
+
+# Local environment
+.env
+.env.local
+local.config
 
 # Logs
-*.log
 logs/
-*.out
+*.log
 
 # Temporary files
+tmp/
+temp/
 *.tmp
-*.bak
-*.backup
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
